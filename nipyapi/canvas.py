@@ -1578,6 +1578,7 @@ def get_pg_parents_ids(pg_id):
     # Removing the None value
     parent_groups.pop()
     return parent_groups
+
 def disable_process_group(pg_id):
     """
     Disable a Process Group and all components.
