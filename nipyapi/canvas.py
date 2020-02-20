@@ -26,7 +26,8 @@ __all__ = [
     'list_all_funnels', 'list_all_remote_process_groups', 'delete_funnel',
     'get_remote_process_group', 'update_process_group', 'create_funnel',
     'create_remote_process_group', 'delete_remote_process_group',
-    'set_remote_process_group_transmission', 'disable_process_group', 'get_pg_parents_ids'
+    'set_remote_process_group_transmission', 'disable_process_group',
+    'get_pg_parents_ids'
 ]
 
 log = logging.getLogger(__name__)
