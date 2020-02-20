@@ -26,7 +26,7 @@ __all__ = [
     'list_all_funnels', 'list_all_remote_process_groups', 'delete_funnel',
     'get_remote_process_group', 'update_process_group', 'create_funnel',
     'create_remote_process_group', 'delete_remote_process_group',
-    'set_remote_process_group_transmission', 'get_pg_parents_ids'
+    'set_remote_process_group_transmission', 'disable_process_group', 'get_pg_parents_ids'
 ]
 
 log = logging.getLogger(__name__)
@@ -1549,6 +1549,39 @@ def delete_funnel(funnel, refresh=True):
             id=funnel.id,
             version=funnel.revision.version
         )
+
+
+def disable_process_group(pg_id):
+    """
+    Disable a Process Group and all components.
+    Note: Only stopped processors will be disabled.
+
+    Args:
+        pg_id (str): The UUID of the target Process Group
+
+    Returns:
+         (bool): True of successfully disabled, False if not.
+
+    """
+    assert isinstance(pg_id, six.string_types)
+    assert isinstance(
+        get_process_group(pg_id, 'id'),
+        nipyapi.nifi.ProcessGroupEntity
+    )
+    target_state = 'DISABLED'
+    body = nipyapi.nifi.ScheduleComponentsEntity(
+        id=pg_id,
+        state=target_state
+    )
+
+    with nipyapi.utils.rest_exceptions():
+        result = nipyapi.nifi.FlowApi().schedule_components(
+            id=pg_id,
+            body=body
+        )
+    if result.state == target_state:
+        return True
+    return False
 
 
 def get_pg_parents_ids(pg_id):
