@@ -380,7 +380,7 @@ def delete_process_group(process_group, force=False, refresh=True):
     except nipyapi.nifi.rest.ApiException as e:
         if force:
             # Retrieve parent process group
-            parent_pg_id = nipyapi.canvas.get_process_group(pg_id, 'id') \
+            parent_pg_id = nipyapi.canvas.get_process_group(pg_id, 'id')\
                 .component.parent_group_id
             # Stop, drop, and roll.
             purge_process_group(target, stop=True)
